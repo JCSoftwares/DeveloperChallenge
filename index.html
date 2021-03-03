@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  
+  
+    
+   
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.semanticui.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.semanticui.min.css">
+</head>
+<body>
+    <div>
+      
+          <table id="tablePais" class="ui celled table responsive nowrap unstackable" style="width:100%">
+                  <thead>
+                      <tr>
+                          <th>Nome</th>
+                          <th>Capital</th>
+                          <th>Região</th>
+                          <th>Sub-Região</th>
+                          <th>População</th>
+                          <th>Área</th>
+                          <th>Fuso horário</th>
+                          <th>Nome nativo</th>
+                          <th>Bandeira</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      
+                  </tbody>
+              </table>
+
+              </div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.semanticui.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.semanticui.min.js"></script>
+
+      
+
+<script type="text/javascript" language="javascript">
+
+
+    
+   
+    
+$(document).ready(function() {
+    $('#tablePais').DataTable();
+} );
+
+window.onload = function() {
+  print_stat();
+  
+};
+
+function print_stat(){
+            jQuery.ajax({
+              type: 'GET',
+              async: false ,
+              url: 'https://restcountries.eu/rest/v2/all',
+              dataType: 'json',
+              success: function (data) {
+                $.each(data, function(i, item) {
+                  $('#tablePais > tbody:last-child').append('<tr><td>'+data[i].name+'</td><td>'+data[i].capital+'</td><td>'+data[i].region+'</td><td>'+data[i].subregion+'</td><td>'+data[i].population+'</td><td>'+data[i].area+'</td><td>'+data[i].timezones+'</td><td>'+data[i].nativeName+'</td><td>	<a class="ui mini button circular orange icon fn-dialog" href="'+data[i].flag+'" data-tooltip="Bandeira"><i class="star icon"></i></a></td></tr>');
+                });
+                console.log(data);
+              },
+              error : function(x, e) {
+                  alert('server error occoured');
+                  if(x.status==0){ alert('0 error'); 
+                  }else if(x.status==404){ alert('404 error'); 
+                  }else if(x.status==500){ alert('500 error'); 
+                  }else if(e=='parsererror'){ alert('Error.nParsing JSON Request failed.'); 
+                  }else if(e=='timeout'){ alert('Time out.'); 
+                  }else { alert(x.responseText); }
+                }
+            });
+        }
+ </script>
+
+ <body>
+
+ </body>
+</body>
+</html>
